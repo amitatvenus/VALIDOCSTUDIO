@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#173f35" />
+  <title>Validoc — Your valid digital document</title>
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon-32x32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="stylesheet" href="styles.css?v=20260725-8" />
+  <link rel="stylesheet" href="features.css?v=20260801-14" />
+  <link rel="stylesheet" href="theme.css?v=20260727-17" />
+</head>
+<body>
+  <div id="toast" class="toast" role="status"></div>
+  <header class="topbar">
+    <a class="brand validoc-brand" href="#" aria-label="Validoc — Your valid digital document"><span class="validoc-logo-art validoc-logo-main" aria-hidden="true"><img class="validoc-logo-file" src="assets/validoc-logo.png" alt=""><i class="validoc-logo-dark"></i><i class="validoc-logo-accent"></i></span></a>
+    <nav><button class="nav-link active" data-page="dashboard">Documents</button><button class="nav-link" data-page="activity">Activity</button></nav>
+    <div class="theme-quick-picker" aria-label="Interface appearance themes"><small>Appearance</small><button class="theme-swatch swatch-golden" data-theme-choice="golden" title="Golden Orange" aria-label="Use Golden Orange theme"></button><button class="theme-swatch swatch-emerald" data-theme-choice="emerald" title="Emerald Teal" aria-label="Use Emerald Teal theme"></button><button class="theme-swatch swatch-ocean" data-theme-choice="ocean" title="Ocean Blue" aria-label="Use Ocean Blue theme"></button><button class="theme-swatch swatch-violet" data-theme-choice="violet" title="Violet Magenta" aria-label="Use Violet Magenta theme"></button><button class="theme-swatch swatch-rose" data-theme-choice="rose" title="Rose Coral" aria-label="Use Rose Coral theme"></button><button class="theme-swatch swatch-graphite" data-theme-choice="graphite" title="Graphite Cyan" aria-label="Use Graphite Cyan theme"></button></div>
+    <button class="profile" id="accountProfile" type="button" title="View or change the current Validoc login"><span id="accountInitials">ID</span><div><strong id="accountName">Validoc account</strong><small id="accountEmail">Set login ID</small></div></button>
+  </header>
+
+  <main>
+    <section id="dashboard" class="page active">
+      <div class="hero-row">
+        <div><p class="eyebrow">DOCUMENT WORKSPACE</p><h1>The Smart Way to Get Approvals</h1><p class="subhead">Upload a document, assign recipients, and collect approvals or signatures in one clear flow.</p></div>
+        <button class="primary large" id="newDocument">+ New document</button>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>Documents</h2><p>Everything sent and awaiting action</p></div><label class="search"><span>⌕</span><input id="search" placeholder="Search documents or recipients" /></label></div>
+      <div class="tabs" id="tabs"><button class="active" data-filter="all">All</button><button data-filter="draft">Drafts</button><button data-filter="waiting">Waiting</button><button data-filter="expired">Expired</button><button data-filter="completed">Completed</button></div>
+        <div id="documentList" class="document-list"></div>
+      </div>
+    </section>
+
+    <section id="activity" class="page">
+      <div class="hero-row compact"><div><p class="eyebrow">TASK HISTORY</p><h1>Workspace activity</h1><p class="subhead">Activity is grouped by document task. Expand a task to view its complete history.</p></div></div>
+      <div class="panel"><div id="activityList" class="timeline task-timeline"></div></div>
+    </section>
+
+    <section id="editor" class="page editor-page">
+      <div class="editor-top"><button class="back" id="backDashboard">← Documents</button><div class="editor-title"><input id="documentTitle" aria-label="Document title" /><span id="saveState">Saved locally</span></div><button class="secondary compact-btn" id="autoZoomBtn" title="Fit document automatically">Fit page</button><span class="zoom-readout" id="zoomReadout">100%</span><button class="secondary compact-btn" id="commentModeBtn" title="Place a comment marker directly on the document">⌖ Mark comment</button><button class="secondary compact-btn" id="highlightBtn">Highlight</button><button class="secondary compact-btn" id="auditBtn">Audit trail</button><button class="secondary compact-btn" id="graceBtn" hidden>Approve 7-day grace</button><button class="secondary compact-btn" id="printBtn">Preview PDF</button><button class="secondary compact-btn" id="downloadBtn" disabled>Download PDF</button><button class="secondary compact-btn" id="shareLinksBtn" disabled>Share links</button><button class="primary" id="sendBtn">Send & create links</button></div>
+      <div class="editor-layout no-toolbox">
+        <div class="canvas-wrap"><div class="file-navigation"><div class="file-tabs" id="fileTabs"></div><button class="certificate-shortcut" id="viewCertificateBtn">View Approval Certificate</button></div><div class="canvas-toolbar"><span id="fileLabel"></span><div><span>Signature spaces are generated automatically</span><button class="secondary preview-expand-button" id="expandPreviewBtn" title="Open full-screen preview">⛶ Expand</button><button class="secondary preview-expand-button" id="renameFileBtn" title="Rename the selected uploaded file">✎ Rename file</button><button class="remove-document" id="removeDocumentBtn">Delete file</button></div></div><div id="documentCanvas" class="document-canvas" title="Double-click to open full-screen preview"></div></div>
+        <aside class="recipients"><div class="aside-head"><div><p class="eyebrow">RECIPIENTS</p><h3>People & authority</h3></div><button id="addRecipient" title="Add recipient">+</button></div><div id="expiryPanel"></div><div class="initiator-email-panel" id="initiatorEmailPanel"><p class="eyebrow">INITIATOR ACCOUNT</p><label>Initiator name<input id="initiatorName" placeholder="Enter the initiator’s full name"></label><label>Initiator email address<input id="initiatorEmail" type="email" readonly></label><small id="initiatorEmailStatus">Only the signed-in document owner receives initiator rights.</small></div><div id="recipientList"></div><div id="completionDelivery"></div><button class="secondary wide" id="addMoreFiles">+ Add documents</button><div class="field-summary"><span>Automatic signature spaces</span><strong id="fieldCount">0</strong></div><div class="initiator-comment" id="initiatorComment"><p class="eyebrow">DOCUMENT COMMENT</p><textarea id="initiatorCommentText" placeholder="Add a note for all recipients..."></textarea><button class="secondary wide" id="addInitiatorComment">Add comment</button></div><div class="comment-admin" id="commentAdmin"></div></aside>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="createDialog">
+    <form id="createForm" method="dialog">
+      <div class="modal-head"><div><p class="eyebrow">NEW DOCUMENT</p><h2>Start an approval</h2></div><button class="icon-btn" value="cancel" formnovalidate>×</button></div>
+      <label>Document title<input id="newTitle" required placeholder="Automatically taken from the uploaded file" /><small>Uses the first uploaded file name and can be edited later by the initiator.</small></label>
+      <label>Initiator name<input id="newInitiatorName" required placeholder="Enter the initiator’s full name" /><small>Suggested from the login email and editable before continuing.</small></label>
+      <label>Initiator email address<input id="newInitiatorEmail" required readonly type="email" /><small>The person currently logged in is automatically recorded as the initiator and document owner.</small></label>
+      <label class="upload" id="dropzone"><input type="file" id="fileInput" accept="application/pdf,image/jpeg,image/jpg" multiple required /><span class="upload-icon">⇧</span><strong>Choose one or more PDFs/JPGs</strong><small>Files remain separate and uncompressed</small><em id="chosenFile">Select multiple files if needed</em></label><div id="chosenFileList" class="chosen-file-list"></div>
+      <div class="modal-actions"><button class="secondary" value="cancel" formnovalidate>Cancel</button><button class="primary" value="default">Continue</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="accountDialog">
+    <form id="accountForm" method="dialog">
+      <div class="modal-head"><div><p class="eyebrow">SECURE VALIDOC LOGIN</p><h2>Email and password</h2></div><button class="icon-btn" value="cancel" formnovalidate>×</button></div>
+      <p class="account-help">Your password is securely verified by Supabase and is never stored in Validoc. Only the authenticated document initiator receives modification rights.</p>
+      <div id="accountSignedInPanel" class="account-signed-in" hidden>
+        <span class="account-security-icon">✓</span>
+        <div><small>AUTHENTICATED ACCOUNT</small><strong id="authenticatedAccountName"></strong><span id="authenticatedAccountEmail"></span></div>
+        <button class="secondary" id="signOutBtn" type="button">Sign out</button>
+      </div>
+      <div id="accountLoginFields">
+        <p class="trial-login-note"><strong>Secure login</strong><span>Enter the Supabase account credentials supplied for your demonstration.</span></p>
+        <label>Full name <small>(required when creating an account)</small><input id="accountNameInput" placeholder="Your full name" autocomplete="name" /></label>
+        <label>Login email address<input id="accountEmailInput" required type="email" placeholder="your.name@company.com" autocomplete="username" /></label>
+        <label>Password<input id="accountPasswordInput" required type="password" minlength="8" placeholder="Minimum 8 characters" autocomplete="current-password" /></label>
+        <div class="account-auth-links"><button class="text-button" id="resetPasswordBtn" type="button">Forgot password?</button></div>
+        <div class="modal-actions account-auth-actions"><button class="secondary" value="cancel" formnovalidate>Cancel</button><button class="secondary" id="createAccountBtn" type="button">Create account</button><button class="primary" id="signInBtn" value="default">Sign in</button></div>
+      </div>
+      <p id="accountAuthStatus" class="account-auth-status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+  <dialog id="passwordRecoveryDialog">
+    <form id="passwordRecoveryForm" method="dialog">
+      <div class="modal-head"><div><p class="eyebrow">PASSWORD RECOVERY</p><h2>Create a new password</h2></div></div>
+      <p class="account-help">Enter a strong password for your authenticated Validoc account.</p>
+      <label>New password<input id="newPasswordInput" required type="password" minlength="8" autocomplete="new-password" placeholder="Minimum 8 characters" /></label>
+      <label>Confirm new password<input id="confirmNewPasswordInput" required type="password" minlength="8" autocomplete="new-password" placeholder="Repeat the new password" /></label>
+      <div class="modal-actions"><button class="primary" id="updatePasswordBtn" value="default">Update password</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="recipientDialog">
+    <form id="recipientForm" method="dialog">
+      <div class="modal-head"><div><p class="eyebrow">RECIPIENT</p><h2>Add a person</h2></div><button class="icon-btn" value="cancel" formnovalidate>×</button></div>
+      <div class="contact-tools"><div><strong>Saved contacts</strong><small id="contactDirectoryStatus">No saved contacts yet</small></div><button class="secondary" id="importContactsBtn" type="button">Import CSV</button><input id="importContactsFile" type="file" accept=".csv,text/csv,text/plain" hidden></div>
+      <label>Full name <small>(type to search saved contacts)</small><input id="recipientName" list="recipientNameOptions" placeholder="Jane Smith" autocomplete="off" /></label>
+      <datalist id="recipientNameOptions"></datalist>
+      <label>Email address <small>(type to search saved contacts)</small><input id="recipientEmail" required type="email" list="recipientEmailOptions" placeholder="jane.smith@company.com" autocomplete="off" /></label>
+      <datalist id="recipientEmailOptions"></datalist>
+      <label>Authority<select id="recipientRole"><option value="signer">Signing authority</option><option value="information">Information only</option></select></label>
+      <label>Reminder schedule<select id="recipientReminder"><option value="1">Every day</option><option value="2">Every 2 days</option><option value="3">Every 3 days</option><option value="7">Weekly</option></select></label>
+      <div class="modal-actions"><button class="secondary" value="cancel" formnovalidate>Cancel</button><button class="primary" value="default">Add recipient</button></div>
+    </form>
+  </dialog>
+  <dialog id="changeSignerDialog">
+    <form id="changeSignerForm" method="dialog">
+      <div class="modal-head"><div><p class="eyebrow">CHANGE SIGNING AUTHORITY</p><h2>Assign a substitute signer</h2></div><button class="icon-btn" value="cancel" formnovalidate>×</button></div>
+      <div class="change-signer-summary"><span>Replacing</span><strong id="changeSignerCurrent"></strong><small>The previous personal signing link will stop working after this change is saved.</small></div>
+      <label>New signer name <small>(type to search saved contacts)</small><input id="changeSignerName" list="recipientNameOptions" placeholder="Full name" autocomplete="off" required /></label>
+      <label>New signer email address <small>(type to search saved contacts)</small><input id="changeSignerEmail" type="email" list="recipientEmailOptions" placeholder="name@company.com" autocomplete="off" required /></label>
+      <label>Reminder schedule<select id="changeSignerReminder"><option value="1">Every day</option><option value="2">Every 2 days</option><option value="3">Every 3 days</option><option value="7">Weekly</option></select></label>
+      <label>Reason for changing signer<select id="changeSignerReason" required><option value="">Select a reason</option><option>On leave</option><option>Unavailable</option><option>Role or responsibility changed</option><option>Other operational reason</option></select></label>
+      <div class="modal-actions"><button class="secondary" value="cancel" formnovalidate>Cancel</button><button class="primary" id="confirmChangeSigner" value="default">Change signer & create new link</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="reviewDialog" class="review-dialog">
+    <div class="review-shell"><div class="review-head"><div class="brand validoc-brand validoc-brand-compact" aria-label="Validoc — Your valid digital document"><span class="validoc-logo-art validoc-logo-review" aria-hidden="true"><img class="validoc-logo-file" src="assets/validoc-logo.png" alt=""><i class="validoc-logo-dark"></i><i class="validoc-logo-accent"></i></span></div><div><strong id="reviewRecipient"></strong><small>Secure document review</small></div><select id="reviewRecipientSelect" aria-label="Preview recipient"></select><div class="theme-quick-picker theme-picker-review" aria-label="Interface color themes"><button class="theme-swatch swatch-golden" data-theme-choice="golden" title="Golden Orange" aria-label="Use Golden Orange theme"></button><button class="theme-swatch swatch-emerald" data-theme-choice="emerald" title="Emerald Teal" aria-label="Use Emerald Teal theme"></button><button class="theme-swatch swatch-ocean" data-theme-choice="ocean" title="Ocean Blue" aria-label="Use Ocean Blue theme"></button><button class="theme-swatch swatch-violet" data-theme-choice="violet" title="Violet Magenta" aria-label="Use Violet Magenta theme"></button><button class="theme-swatch swatch-rose" data-theme-choice="rose" title="Rose Coral" aria-label="Use Rose Coral theme"></button><button class="theme-swatch swatch-graphite" data-theme-choice="graphite" title="Graphite Cyan" aria-label="Use Graphite Cyan theme"></button></div><button class="icon-btn" id="closeReview">×</button></div><div class="review-body"><div class="review-preview"><div class="preview-label"><span>DOCUMENT PREVIEW</span><small>Click “Mark on document” and select the exact correction area</small></div><div class="file-tabs" id="reviewFileTabs"></div><div id="reviewCanvas" class="document-canvas review-canvas"></div></div><aside class="review-actions"><p class="eyebrow">SIGN & CORRECT</p><h2 id="reviewTitle"></h2><p id="reviewHelp">Complete each highlighted field, then submit your decision.</p><div id="sharedComments" class="shared-comments"></div><div id="reviewFields"></div><div class="comment-box"><label>Instant correction request</label><small>Place a numbered marker on the exact area, or share a general correction below.</small><button class="secondary wide mark-document-comment" id="markReviewCommentBtn" type="button">⌖ Mark on document</button><textarea id="reviewComment" placeholder="Explain the general correction required..."></textarea><button class="secondary wide" id="commentBtn">Share general comment</button></div><div class="decision"><button class="primary" id="approveBtn">Approve & submit</button></div></aside></div></div>
+  </dialog>
+
+  <dialog id="certificateDialog" class="certificate-dialog"><div id="certificateContent"></div><div class="certificate-actions"><button class="secondary" id="closeCertificate">Close</button><button class="primary" id="printCertificate">Print / Save PDF</button></div></dialog>
+  <dialog id="linksDialog" class="links-dialog"><div class="links-head"><div><p class="eyebrow">READY TO SHARE</p><h2>Signing links</h2><p>Copy and send each secure link to its assigned recipient.</p></div><button class="icon-btn" id="closeLinks">×</button></div><div id="linksList" class="links-list"></div><div class="modal-actions links-actions"><button class="secondary" id="copyAllLinks">Copy all links</button><button class="primary" id="doneLinks">Done</button></div></dialog>
+  <dialog id="auditDialog" class="audit-dialog"><div class="links-head"><div><p class="eyebrow">DOCUMENT HISTORY</p><h2>Audit trail</h2><p>People, actions, and timestamps for this approval.</p></div><button class="icon-btn" id="closeAudit">×</button></div><div id="documentAuditList" class="audit-list"></div><div class="modal-actions links-actions"><button class="primary" id="doneAudit">Done</button></div></dialog>
+  <script src="vendor/pdf-lib.min.js?v=20260717-1"></script>
+  <script src="app.js?v=20260801-23"></script>
+</body>
+</html>

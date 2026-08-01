@@ -1,0 +1,14 @@
+VALIDOC GITHUB PAGES CHECKLIST
+
+1. Extract this package.
+2. Upload all extracted contents to the root of a GitHub repository.
+3. Keep the hidden .github folder and the .nojekyll file.
+4. Commit to the main branch.
+5. In GitHub: Settings > Pages > Source > GitHub Actions.
+6. Wait for the Deploy Validoc to GitHub Pages action to finish.
+7. Add the published URL to Supabase Authentication URL Configuration.
+8. Open the live URL and sign in using credentials supplied separately.
+9. Create a test document, add a recipient, and use Share links to open the signing page.
+10. GitHub Pages cannot send PHP email. Use the Hostinger package when automatic email is required.
+
+Never place Supabase service-role keys, SMTP passwords, or login passwords in GitHub files.
