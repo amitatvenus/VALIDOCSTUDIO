@@ -1,5 +1,9 @@
 VALIDOC GITHUB PAGES CHECKLIST
 
+This v3 package uses a self-contained index.html. The PDF engine, Validoc logo,
+Venus logo, borders, fonts, and interface styling are embedded in that file.
+Completed dashboard rows include a direct Download PDF button.
+
 1. Extract this package.
 2. Upload all extracted contents to the root of a GitHub repository.
 3. Keep the hidden .github folder and the .nojekyll file.

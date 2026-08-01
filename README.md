@@ -2,11 +2,17 @@
 
 This folder is ready to upload to the root of a GitHub repository and publish with GitHub Pages.
 
+## Self-contained reliability build
+
+The main `index.html` now embeds the complete PDF engine, Validoc logo, Venus logo, certificate borders, interface styles, and Montserrat fonts. This prevents missing-logo and non-working-PDF errors when GitHub serves the app from a repository subfolder. No separate asset, CSS, JavaScript, font, or PDF-library folder is required.
+
+Completed documents display a **Download PDF** button directly on the dashboard. Before creating the combined PDF, Validoc refreshes temporary cloud file links so older completed workflows can download their original documents and signed Approval Report.
+
 ## Publish the website
 
 1. Create a new GitHub repository. Use a private repository if your GitHub plan supports Pages for private repositories; otherwise remember that every uploaded file will be public.
 2. Extract the ZIP on your computer. Do not upload the ZIP itself as the website.
-3. Upload every extracted file and folder to the repository root, including `.github`, `assets`, `vendor`, and `.nojekyll`.
+3. Upload every extracted file and folder to the repository root, including the hidden `.github` folder and `.nojekyll` file.
 4. Commit the files to the `main` branch.
 5. Open the repository's **Settings → Pages**.
 6. Under **Build and deployment**, select **GitHub Actions** as the source.
@@ -65,12 +71,8 @@ For this GitHub trial:
 ```text
 index.html
 404.html
-app.js
-styles.css
-theme.css
-features.css
-assets/
-vendor/
+favicon files
+site.webmanifest
 .github/workflows/pages.yml
 .nojekyll
 README.md
